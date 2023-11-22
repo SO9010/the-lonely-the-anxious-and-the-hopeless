@@ -1,3 +1,5 @@
+// If the sound is less that .2 then have it so a voice goes, ah thats nice, finally some quiite. 
+
 class obj {
   constructor(imgPath, imgSoundPath) {
     this.imgSoundPath = imgSoundPath;
@@ -8,7 +10,6 @@ class obj {
     this.finalSize = 100;
   }
 
-  // I also want a preload function
   preLoad(){
     try {
       this.sound = loadSound(this.imgSoundPath);
@@ -28,7 +29,7 @@ class obj {
   }
 
   draw() {
-    let distanceFromImage = (1 - dist(mouseX, mouseY, this.imgPosX, this.imgPosY) / (this.imgSize * 2.5));
+    let distanceFromImage = (1 - dist(mouseX, mouseY, this.imgPosX, this.imgPosY) / (this.imgSize * 4));
     if(distanceFromImage < 0){
       distanceFromImage = 0.01; 
     }
@@ -39,12 +40,13 @@ class obj {
     let rms = this.analyzer.getLevel();
     this.sound.amp(distanceFromImage);
 
-    this.finalSize = this.imgSize + rms * 500;
+    this.finalSize = this.imgSize + rms * 750;
 
     imageMode(CENTER);
     image(this.img, this.imgPosX, this.imgPosY, this.finalSize, this.finalSize);
   }
 
+  // This handles the movement of the images //
   isMouseOn(){
     if (
       mouseX >= this.imgPosX - this.finalSize / 2 &&
@@ -85,7 +87,7 @@ class obj {
 let angle = 0;
 let audioCtx, font;
 let centreCircleSound;
-let img1;
+let imageObjects = [];
 let started = false;
 
 function backroundShape(){
@@ -101,15 +103,25 @@ function backroundShape(){
 
   angle += 0.02;
 }
-
-
+let num = 6;
+// to load all of mt images and sounds we can put it in an array, then loop through the dir until there are none left, the naming should be img1, sound1, ext...
 function preload() {
   soundFormats('mp3', 'ogg');
   centreCircleSound = loadSound('assets/audio/bombabom.mp3');
   font = loadFont('assets/font/Roboto_Mono/RobotoMono-VariableFont_wght.ttf');
-  img1 = new obj('assets/images/img1.jpg', 'assets/audio/audio1.mp3');
-  img1.preLoad();
+
+  for (let i = 1; i <= num; i++) {
+    let imgPath = 'assets/images/img'+ i +'.jpg';
+    let soundPath = 'assets/audio/audio'+ i +'.mp3';
+    console.log(soundPath);
+    imageObjects.push(new obj(imgPath, soundPath));
+  }
+  for (let i = 0; i < imageObjects.length -1; i++) {
+    let crnt = imageObjects[i];
+    crnt.preLoad();
+  }
 }
+
 
 function setup() {
   // put setup code here
@@ -118,7 +130,11 @@ function setup() {
   audioCtx = getAudioContext();
   audioCtx.suspend();  
 
-  img1.setUp(random(width), random(height), width/8);
+  for(let i = 0; i < imageObjects.length -1; i++){
+    //add a function to get a suiteble random size and position for each image
+    let crnt = imageObjects[i];
+    crnt.setUp(random(width), random(height), width/8);
+  }
   ccStartUp();
 
   textFont(font);
@@ -132,14 +148,17 @@ function draw() {
   backroundShape();
 
   textSize(70);
-  text('The lonley, the anxious and the hopeless.', 35, height- 35);
+  text('The lonley, the anxious and the hopeless.', 35, height - 35);
 
   centreCircle();
-  img1.draw();
+  for(let i = 0; i < imageObjects.length -1; i++){
+    let crnt = imageObjects[i];
+    crnt.draw();
+  }
   textSize(30);
   if(!started){
     strokeWeight(5);
-    text('Click to start!',0, 30);
+    text('Click to start!', 0, 30);
   }
 }
 
@@ -149,21 +168,31 @@ function mousePressed() {
     audioCtx.resume();
     started = true;
   }
-  img1.mousePressed();
+  for(let i = 0; i < imageObjects.length -1; i++){
+    let crnt = imageObjects[i];
+    crnt.mousePressed();
+  }
 }
 
 function mouseDragged() {
-  img1.mouseDragged();
+  for(let i = 0; i < imageObjects.length -1; i++){
+    let crnt = imageObjects[i];
+    crnt.mouseDragged();
+  }
 }
 
 function mouseReleased() {
   // Stop dragging when the mouse is released
-  img1.mouseReleased();
+  for(let i = 0; i < imageObjects.length -1; i++){
+    let crnt = imageObjects[i];
+    crnt.mouseReleased();
+  }
 } 
 
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  background(25);
 }
 
 
@@ -202,5 +231,3 @@ function centreCircle() {
   strokeWeight(20);
   circle(posX, posY, width/8 + rms * 1000);
 }
-
-// IDEA make it so if the iamge is clicked on, it centres it and blurs out the background.s
