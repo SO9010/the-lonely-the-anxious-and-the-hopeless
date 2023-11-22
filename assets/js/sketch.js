@@ -210,18 +210,6 @@ function windowResized() {
   }
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  background(25);
-  for(let i = 0; i < imageObjects.length -1; i++){
-    //add a function to get a suiteble random size and position for each image
-    let crnt = imageObjects[i];
-    crnt.imgPosX = random(width);
-    crnt.imgPosY = random(height);
-  }
-}
-
-
 ///////////////////////////////////////////////////
 // Centre Circle code /////////////////////////////
 ///////////////////////////////////////////////////
