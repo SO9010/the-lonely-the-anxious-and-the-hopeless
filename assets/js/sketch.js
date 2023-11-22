@@ -157,7 +157,7 @@ function draw() {
   backroundShape();
 
   textSize(70);
-  text('The lonley, the anxious and the hopeless.', 35, height - 35);
+  text('The lonely, the anxious and the hopeless.', 35, height - 35);
 
   centreCircle();
   for(let i = 0; i < imageObjects.length -1; i++){
