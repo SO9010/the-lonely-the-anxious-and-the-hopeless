@@ -21,6 +21,7 @@ class obj {
 
   setUp(imgPosX, imgPosY, imgSize) {
     this.imgSize = imgSize;
+    this.imgSizeCpy = imgSize;
     this.imgPosX = imgPosX;
     this.imgPosY = imgPosY;
     this.sound.loop();
@@ -29,7 +30,7 @@ class obj {
   }
 
   draw() {
-    let distanceFromImage = (1 - dist(mouseX, mouseY, this.imgPosX, this.imgPosY) / (this.imgSize * 4));
+    let distanceFromImage = (1 - dist(mouseX, mouseY, this.imgPosX, this.imgPosY) / (this.imgSize * 3.75));
     if(distanceFromImage < 0){
       distanceFromImage = 0.01; 
     }
@@ -40,7 +41,7 @@ class obj {
     let rms = this.analyzer.getLevel();
     this.sound.amp(distanceFromImage);
 
-    this.finalSize = this.imgSize + rms * 750;
+    this.finalSize = this.imgSize + rms * 650;
 
     imageMode(CENTER);
     image(this.img, this.imgPosX, this.imgPosY, this.finalSize, this.finalSize);
@@ -65,6 +66,7 @@ class obj {
       this.isDragging = true;
       this.imgPosX = mouseX;
       this.imgPosY = mouseY;
+      this.imgSize = this.imgSizeCpy*4;
     }
   }
   
@@ -78,6 +80,7 @@ class obj {
   
   mouseReleased() {
     // Stop dragging when the mouse is released
+    this.imgSize = this.imgSizeCpy;
     this.isDragging = false;
   }
   
@@ -103,7 +106,7 @@ function backroundShape(){
 
   angle += 0.02;
 }
-let num = 6;
+let num = 12;
 // to load all of mt images and sounds we can put it in an array, then loop through the dir until there are none left, the naming should be img1, sound1, ext...
 function preload() {
   soundFormats('mp3', 'ogg');
@@ -129,11 +132,17 @@ function setup() {
 
   audioCtx = getAudioContext();
   audioCtx.suspend();  
-
+  let imgWidth;
+  if(width > height){
+    imgWidth = height/8;
+  }
+  else{
+    imgWidth = width/8;
+  }
   for(let i = 0; i < imageObjects.length -1; i++){
     //add a function to get a suiteble random size and position for each image
     let crnt = imageObjects[i];
-    crnt.setUp(random(width), random(height), width/8);
+    crnt.setUp(random(width), random(height), imgWidth);
   }
   ccStartUp();
 
@@ -157,7 +166,8 @@ function draw() {
   }
   textSize(30);
   if(!started){
-    strokeWeight(5);
+    noStroke();
+    fill(75)
     text('Click to start!', 0, 30);
   }
 }
@@ -189,13 +199,27 @@ function mouseReleased() {
   }
 } 
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  background(25);
+  for(let i = 0; i < imageObjects.length -1; i++){
+    //add a function to get a suiteble random size and position for each image
+    let crnt = imageObjects[i];
+    crnt.imgPosX = random(width);
+    crnt.imgPosY = random(height);
+  }
+}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   background(25);
+  for(let i = 0; i < imageObjects.length -1; i++){
+    //add a function to get a suiteble random size and position for each image
+    let crnt = imageObjects[i];
+    crnt.imgPosX = random(width);
+    crnt.imgPosY = random(height);
+  }
 }
-
-
 
 
 ///////////////////////////////////////////////////
