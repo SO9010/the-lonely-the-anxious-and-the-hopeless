@@ -105,9 +105,9 @@ function backroundShape(){
 
 function preload() {
   soundFormats('mp3', 'ogg');
-  centreCircleSound = loadSound('../assets/audio/bombabom.mp3');
-  font = loadFont('../assets/font/Roboto_Mono/RobotoMono-VariableFont_wght.ttf');
-  img1 = new obj('../assets/images/img1.jpg', '../assets/audio/audio1.mp3');
+  centreCircleSound = loadSound('assets/audio/bombabom.mp3');
+  font = loadFont('assets/font/Roboto_Mono/RobotoMono-VariableFont_wght.ttf');
+  img1 = new obj('assets/images/img1.jpg', '../assets/audio/audio1.mp3');
   img1.preLoad();
 }
 
