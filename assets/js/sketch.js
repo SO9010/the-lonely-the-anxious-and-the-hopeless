@@ -32,7 +32,7 @@ class obj {
   draw() {
     let distanceFromImage = (1 - dist(mouseX, mouseY, this.imgPosX, this.imgPosY) / (this.imgSize * 3.75));
     if(distanceFromImage < 0){
-      distanceFromImage = 0.01; 
+      distanceFromImage = 0.001; 
     }
     else if(distanceFromImage > 1){
       distanceFromImage = 1;
@@ -128,7 +128,8 @@ function preload() {
 
 function setup() {
   // put setup code here
-  createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent('canvas-container');
 
   audioCtx = getAudioContext();
   audioCtx.suspend();  

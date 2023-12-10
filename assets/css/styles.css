@@ -1,0 +1,38 @@
+body {
+    color: #b3b3b3;
+    text-shadow: 2px 2px 5px rgb(211, 211, 211);
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    background-color: #191919;
+    font-family: roboto, monospace;
+
+}
+#grad1 {
+    height: 125px;
+    background-color: rgb(245, 245, 245); /* For browsers that do not support gradients */
+    background-image: linear-gradient(#191919, rgb(245, 245, 245));
+}
+#grad2 {
+    height: 125px;
+    background-color: rgb(245, 245, 245); /* For browsers that do not support gradients */
+    background-image: linear-gradient(rgb(245, 245, 245), #191919);
+}
+#backroundshiftWhite {
+    background-color: rgb(245, 245, 245);
+}
+#backroundshiftBlack {
+    background-color: #191919;
+}
+p1{
+    font-size: 100px;
+}
+p2 {
+    font-size: 61.8px;
+}
+p3 {
+    font-size: 20px;
+}
+p4 {
+    font-size: 32px;
+}
